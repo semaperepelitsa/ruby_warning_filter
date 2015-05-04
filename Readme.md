@@ -24,6 +24,8 @@ When running your app or tests you should see only relevant warnings. Now, go fi
 
 ## Feedback
 
+The filter works by proxying all writes to stderr. It has been running for a while in many of my work projects with good results. However, it is probably not comprehensive. Please, report any warnings that it misses or swallows by error.
+
 [![Build Status](https://travis-ci.org/semaperepelitsa/ruby_warning_filter.svg?branch=master)](https://travis-ci.org/semaperepelitsa/ruby_warning_filter)
 
-The filter works by proxying all writes to stderr. It has been running for a while in many of my work projects with good results. However, it is probably not comprehensive. Please, report any warnings that it misses or swallows by error.
+The gem is tested against Ruby 2.0, 2.1, 2.2.
