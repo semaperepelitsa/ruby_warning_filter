@@ -24,4 +24,6 @@ When running your app or tests you should see only relevant warnings. Now, go fi
 
 ## Feedback
 
+[![Build Status](https://travis-ci.org/semaperepelitsa/ruby_warning_filter.svg?branch=master)](https://travis-ci.org/semaperepelitsa/ruby_warning_filter)
+
 The filter works by proxying all writes to stderr. It has been running for a while in many of my work projects with good results. However, it is probably not comprehensive. Please, report any warnings that it misses or swallows by error.
