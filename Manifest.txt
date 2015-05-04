@@ -1,3 +1,6 @@
+Gemfile
+Manifest.txt
+Rakefile
 Readme.md
 lib/ruby_warning_filter.rb
 ruby_warning_filter.gemspec
