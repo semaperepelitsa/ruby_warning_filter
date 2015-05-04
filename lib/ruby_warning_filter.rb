@@ -72,10 +72,6 @@ class RubyWarningFilter < DelegateClass(IO)
     line.start_with?("\tfrom")
   end
 
-  def whitespace?(line)
-    line =~ /^\s*$/
-  end
-
   def eval_redefined?(line)
     line =~ /\(eval\):\d+: warning: previous definition of .+ was here/
   end
