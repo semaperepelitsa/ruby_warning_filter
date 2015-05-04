@@ -1,3 +1,4 @@
+require "bundler/setup"
 require_relative "../lib/ruby_warning_filter"
 gem "minitest", "~> 5.0"
 require "minitest/autorun"
