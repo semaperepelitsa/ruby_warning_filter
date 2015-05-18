@@ -1,4 +1,5 @@
-require 'delegate'
+require "delegate"
+require "set"
 
 # Filter IO from Ruby warnings that come out of external gems.
 # There is no other way currently to filter out Ruby warnings other than hijacking stderr.
@@ -22,9 +23,16 @@ class RubyWarningFilter < DelegateClass(IO)
 
   def initialize(io, ignore_path: Gem.path)
     super(io)
+
     @ruby_warnings = 0
     @ignored = false
-    @ignore_path = ignore_path
+    @ignore_path = ignore_path.to_set
+
+    # Gem path can contain symlinks.
+    # Some warnings use real path instead of symlinks so we need to ignore both.
+    ignore_path.each do |a|
+      @ignore_path << File.realpath(a) if File.exist?(a)
+    end
   end
 
   def write(line)
