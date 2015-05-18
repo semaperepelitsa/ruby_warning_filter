@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name    = "ruby_warning_filter"
-  gem.version = "1.0.0"
+  gem.version = "1.0.1"
   gem.summary = "Hassle-free Ruby warnings"
   gem.license = "MIT"
   gem.author  = "Semyon Perepelitsa"
