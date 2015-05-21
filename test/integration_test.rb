@@ -50,7 +50,7 @@ END
 
   def ruby(*lines)
     IO.pipe do |rd, wr|
-      success = system({ "GEM_PATH" => GEM_PATH }, "ruby", "-w", "-I", LIB, "-e", lines.join("\n"), :err => wr)
+      success = system({ "GEM_PATH" => GEM_PATH }, "ruby", "-w", "-I", LIB, "-e", lines.join("\n"), :err => wr, unsetenv_others: true)
       wr.close
       out = rd.read
       if success
