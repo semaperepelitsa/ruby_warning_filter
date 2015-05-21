@@ -33,11 +33,18 @@ END
     assert_equal "", ruby(CODE, 'require "bad_example/basic"')
   end
 
-  def test_with_backtrace
-    skip "Pending"
+  def test_eval_redefined_non_filtered
+    assert_equal <<-END, ruby('require "bad_example/eval_redefined"')
+#{GEM_PREFIX}/eval_redefined.rb:2: warning: method redefined; discarding old foo
+(eval):1: warning: previous definition of foo was here
+END
   end
 
   def test_eval_redefined
+    assert_equal "", ruby(CODE, 'require "bad_example/eval_redefined"')
+  end
+
+  def test_with_backtrace
     skip "Pending"
   end
 
