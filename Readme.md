@@ -28,4 +28,4 @@ The filter works by proxying all writes to stderr. It has been running for a whi
 
 [![Build Status](https://travis-ci.org/semaperepelitsa/ruby_warning_filter.svg?branch=master)](https://travis-ci.org/semaperepelitsa/ruby_warning_filter)
 
-The gem is tested against Ruby 2.0, 2.1, 2.2.
+The gem is tested against Ruby versions 2.5 down to 2.0.
