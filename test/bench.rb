@@ -22,8 +22,8 @@ end
 
 # Sample results in Ruby 2.3.1:
 #
-#          plain File     80.673k (± 2.5%) i/s -    410.454k in   5.091134s
-#   RubyWarningFilter     11.934k (± 4.7%) i/s -     59.721k in   5.017126s
+#          plain File     75.140k (± 4.3%) i/s -    374.952k in   5.000983s
+#   RubyWarningFilter     40.768k (± 4.6%) i/s -    205.377k in   5.050529s
 Benchmark.ips do |x|
   x.report "plain File" do
     write_errors(file)

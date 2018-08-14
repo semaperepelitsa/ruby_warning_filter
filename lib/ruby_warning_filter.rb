@@ -20,33 +20,39 @@ require "set"
 #
 class RubyWarningFilter < DelegateClass(IO)
   attr_reader :ruby_warnings
+  BACKTRACE = "\tfrom"
+  NEWLINE = "\n"
+  RUBY_WARNING = %r{:(\d+|in `\S+'): warning:}
+  EVAL_REDEFINED = /\(eval\):\d+: warning: previous definition of .+ was here/
+
+  # Variables used in tag attributes (Slim) always cause a warning.
+  # TODO: Report this.
+  IGNORED_TEMPLATE_WARNING = %r{\.slim:\d+: warning: possibly useless use of a variable in void context$}
 
   def initialize(io, ignore_path: Gem.path)
     super(io)
 
     @ruby_warnings = 0
     @ignored = false
-    @ignore_path = ignore_path.to_set
 
     # Gem path can contain symlinks.
     # Some warnings use real path instead of symlinks so we need to ignore both.
-    ignore_path.each do |a|
-      @ignore_path << File.realpath(a) if File.exist?(a)
-    end
+    ignore_full_path = ignore_path + ignore_path.select{ |a| File.exist?(a) }.map{ |a| File.realpath(a) }
+    @ignore_regexp = Regexp.new("^(#{Regexp.union(ignore_full_path).source})")
   end
 
   def write(line)
-    if @ignored && (backtrace?(line) || line == "\n")
+    if @ignored && (line.start_with?(BACKTRACE) || line == NEWLINE)
       # Ignore the whole backtrace after ignored warning.
       # Some warnings write newline separately for some reason.
       @ignored = true
       nil
-    elsif @ignored && eval_redefined?(line)
+    elsif @ignored && EVAL_REDEFINED.match?(line)
       # Some gems use eval to redefine methods and the second warning with the source does not have file path, so we need to ignore that explicitly.
       @ignored = false
       nil
-    elsif ruby_warning?(line)
-      @ignored = ignored_warning?(line)
+    elsif RUBY_WARNING.match?(line)
+      @ignored = IGNORED_TEMPLATE_WARNING.match?(line) || @ignore_regexp.match?(line)
       unless @ignored
         @ruby_warnings += 1
         super
@@ -54,33 +60,5 @@ class RubyWarningFilter < DelegateClass(IO)
     else
       super
     end
-  end
-
-  private
-
-  def ruby_warning?(line)
-    line =~ %r{:(\d+|in `\S+'): warning:}
-  end
-
-  def ignored_warning?(line)
-    external_warning?(line) || ignored_template_warning?(line)
-  end
-
-  def external_warning?(line)
-    @ignore_path.any?{ |path| line.start_with?(path) }
-  end
-
-  # Variables used in tag attributes (Slim) always cause a warning.
-  # TODO: Report this.
-  def ignored_template_warning?(line)
-    line =~ %r{\.slim:\d+: warning: possibly useless use of a variable in void context$}
-  end
-
-  def backtrace?(line)
-    line.start_with?("\tfrom")
-  end
-
-  def eval_redefined?(line)
-    line =~ /\(eval\):\d+: warning: previous definition of .+ was here/
   end
 end
