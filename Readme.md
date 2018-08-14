@@ -9,7 +9,7 @@ With the help of this gem you can filter out all those useless messages and only
 Add to your Gemfile:
 
 ```ruby
-gem "ruby_warning_filter", "~> 1.0.0"
+gem "ruby_warning_filter", "~> 1.1.0"
 ```
 
 Put the following code somewhere before your project is loaded. In a Rails application, a good place would be at the end of "config/boot.rb".
@@ -28,4 +28,4 @@ The filter works by proxying all writes to stderr. It has been running for a whi
 
 [![Build Status](https://travis-ci.org/semaperepelitsa/ruby_warning_filter.svg?branch=master)](https://travis-ci.org/semaperepelitsa/ruby_warning_filter)
 
-The gem is tested against Ruby versions 2.5 down to 2.0.
+The gem is tested against Ruby 2.5, 2.4.
