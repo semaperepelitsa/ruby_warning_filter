@@ -7,7 +7,9 @@ STDOUT.sync = true
 
 class RubyWarningsFilterTest < MiniTest::Test
   def setup
-    @err = RubyWarningFilter.new(StringIO.new, ignore_path: ["/path/to/ruby/2.2.0/gems"])
+    @gems_dir = File.expand_path("../gems", __FILE__)
+    @gems_link_dir = File.expand_path("../gems-link", __FILE__)
+    @err = RubyWarningFilter.new(StringIO.new, ignore_path: ["/path/to/ruby/2.2.0/gems", @gems_link_dir])
   end
 
   def test_no_effect
@@ -23,6 +25,7 @@ class RubyWarningsFilterTest < MiniTest::Test
       @err.string
     assert_equal 1, @err.ruby_warnings
 
+    @err.write "#{@gems_dir}/unicode_utils-1.4.0/lib/unicode_utils/sid.rb:11: warning: shadowing outer local variable - al\n"
     @err.write "/path/to/ruby/2.2.0/gems/unicode_utils-1.4.0/lib/unicode_utils/sid.rb:11: warning: shadowing outer local variable - al\n"
 
     # This warning actually writes newline separately.
