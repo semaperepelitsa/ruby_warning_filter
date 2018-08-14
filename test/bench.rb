@@ -19,6 +19,11 @@ def write_errors(io)
   end
 end
 
+
+# Sample results in Ruby 2.3.1:
+#
+#          plain File     80.673k (± 2.5%) i/s -    410.454k in   5.091134s
+#   RubyWarningFilter     11.934k (± 4.7%) i/s -     59.721k in   5.017126s
 Benchmark.ips do |x|
   x.report "plain File" do
     write_errors(file)
