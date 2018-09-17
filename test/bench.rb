@@ -10,20 +10,22 @@ def write_errors(io)
     io.write("/path/to/gems/file.rb:297: warning: instance variable @object not initialized\n")
   end
 
-  10.times do |i|
+  7.times do |i|
     io.write("\tfrom /something/foo/bar:#{i}:in  `<main>'")
+    io.write("\n")
   end
 
-  10.times do
+  7.times do
     io.write("(eval):1: warning: previous definition of foo was here")
+    io.write("\n")
   end
 end
 
 
 # Sample results in Ruby 2.3.1:
 #
-#          plain File     75.140k (± 4.3%) i/s -    374.952k in   5.000983s
-#   RubyWarningFilter     40.768k (± 4.6%) i/s -    205.377k in   5.050529s
+#          plain File     78.633k (± 2.0%) i/s -    393.692k in   5.008743s
+#   RubyWarningFilter     39.980k (± 3.4%) i/s -    200.889k in   5.031314s
 Benchmark.ips do |x|
   x.report "plain File" do
     write_errors(file)
