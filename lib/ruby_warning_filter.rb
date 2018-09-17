@@ -42,7 +42,7 @@ class RubyWarningFilter < DelegateClass(IO)
   end
 
   def write(line)
-    if @ignored && (line.start_with?(BACKTRACE) || line == NEWLINE)
+    if @ignored && (line == NEWLINE || line.start_with?(BACKTRACE))
       # Ignore the whole backtrace after ignored warning.
       # Some warnings write newline separately for some reason.
       @ignored = true
