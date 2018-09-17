@@ -58,6 +58,7 @@ class RubyWarningFilter < DelegateClass(IO)
         super
       end
     else
+      @ignored = false
       super
     end
   end

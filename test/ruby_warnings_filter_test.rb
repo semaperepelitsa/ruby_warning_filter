@@ -15,7 +15,8 @@ class RubyWarningsFilterTest < MiniTest::Test
   def test_no_effect
     assert_equal 0, @err.ruby_warnings
     @err.puts "hello"
-    assert_equal "hello\n", @err.string
+    @err.print "world", "\n"
+    assert_equal "hello\nworld\n", @err.string
     assert_equal 0, @err.ruby_warnings
   end
 
@@ -32,7 +33,11 @@ class RubyWarningsFilterTest < MiniTest::Test
     @err.write "/path/to/ruby/2.2.0/gems/dragonfly-1.0.6/lib/dragonfly/utils.rb:41:in `uri_unescape': warning: URI.unescape is obsolete"
     @err.write "\n"
 
-    assert_equal "/path/to/script/middleware_test.rb:58: warning: assigned but unused variable - status\n",
+    # warn "custom warning"
+    @err.write "custom warning"
+    @err.write "\n"
+
+    assert_equal "/path/to/script/middleware_test.rb:58: warning: assigned but unused variable - status\ncustom warning\n",
       @err.string
     assert_equal 1, @err.ruby_warnings
   end
