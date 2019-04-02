@@ -29,6 +29,10 @@ class RubyWarningFilter < DelegateClass(IO)
   # TODO: Report this.
   IGNORED_TEMPLATE_WARNING = %r{\.slim:\d+: warning: possibly useless use of a variable in void context$}
 
+  # The source of this warning cannot be located so we have to ignore it completely
+  # See example: https://github.com/deivid-rodriguez/pry-byebug/issues/221
+  IGNORED_EVAL_WARNING = %r{^<main>:1: warning: .+ in eval may not return location in binding; use Binding#source_location instead$}
+
   def initialize(io, ignore_path: Gem.path)
     super(io)
 
@@ -52,7 +56,9 @@ class RubyWarningFilter < DelegateClass(IO)
       @ignored = false
       nil
     elsif RUBY_WARNING.match?(line)
-      @ignored = IGNORED_TEMPLATE_WARNING.match?(line) || @ignore_regexp.match?(line)
+      @ignored = IGNORED_TEMPLATE_WARNING.match?(line) ||
+                 IGNORED_EVAL_WARNING.match?(line) ||
+                 @ignore_regexp.match?(line)
       unless @ignored
         @ruby_warnings += 1
         super
