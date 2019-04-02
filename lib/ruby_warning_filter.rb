@@ -22,7 +22,7 @@ require "set"
 class RubyWarningFilter < DelegateClass(IO)
   attr_reader :ruby_warnings
   BACKTRACE = "\tfrom"
-  RUBY_WARNING = %r{:(\d+|in `\S+'): warning:}
+  RUBY_WARNING = %r{(^<main>|:\d+|:in `\S+'): warning:}
   EVAL_REDEFINED = /\(eval\):\d+: warning: previous definition of .+ was here/
 
   # Variables used in tag attributes (Slim) always cause a warning.
@@ -31,7 +31,7 @@ class RubyWarningFilter < DelegateClass(IO)
 
   # The source of this warning cannot be located so we have to ignore it completely
   # See example: https://github.com/deivid-rodriguez/pry-byebug/issues/221
-  IGNORED_EVAL_WARNING = %r{^<main>:1: warning: .+ in eval may not return location in binding; use Binding#source_location instead$}
+  IGNORED_EVAL_WARNING = %r{^<main>(:\d+)?: warning: .+ in eval may not return location in binding; use Binding#source_location instead$}
 
   def initialize(io, ignore_path: Gem.path)
     super(io)

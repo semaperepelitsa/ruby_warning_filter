@@ -95,7 +95,7 @@ class RubyWarningsFilterTest < MiniTest::Test
 
   def test_eval_warning
     @err.write "<main>:1: warning: __FILE__ in eval may not return location in binding; use Binding#source_location instead\n"
-    @err.write "<main>:1: warning: __LINE__ in eval may not return location in binding; use Binding#source_location instead\n"
+    @err.write "<main>: warning: __LINE__ in eval may not return location in binding; use Binding#source_location instead\n"
     assert_equal "", @err.string
     assert_equal 0, @err.ruby_warnings
   end
