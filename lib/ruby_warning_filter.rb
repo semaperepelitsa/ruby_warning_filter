@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "delegate"
 require "set"
 
@@ -21,7 +22,6 @@ require "set"
 class RubyWarningFilter < DelegateClass(IO)
   attr_reader :ruby_warnings
   BACKTRACE = "\tfrom"
-  NEWLINE = "\n"
   RUBY_WARNING = %r{:(\d+|in `\S+'): warning:}
   EVAL_REDEFINED = /\(eval\):\d+: warning: previous definition of .+ was here/
 
@@ -42,7 +42,7 @@ class RubyWarningFilter < DelegateClass(IO)
   end
 
   def write(line)
-    if @ignored && (line == NEWLINE || line.start_with?(BACKTRACE))
+    if @ignored && (line == "\n" || line.start_with?(BACKTRACE))
       # Ignore the whole backtrace after ignored warning.
       # Some warnings write newline separately for some reason.
       @ignored = true
