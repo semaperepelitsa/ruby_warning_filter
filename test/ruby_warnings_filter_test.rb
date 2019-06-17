@@ -28,6 +28,7 @@ class RubyWarningsFilterTest < MiniTest::Test
 
     @err.write "#{@gems_dir}/unicode_utils-1.4.0/lib/unicode_utils/sid.rb:11: warning: shadowing outer local variable - al\n"
     @err.write "/path/to/ruby/2.2.0/gems/unicode_utils-1.4.0/lib/unicode_utils/sid.rb:11: warning: shadowing outer local variable - al\n"
+    @err.write "/path/to/ruby/2.2.0/gems/fast_blank-1.0.0/lib/fast_blank.bundle: warning: method redefined; discarding old blank?"
 
     # This warning actually writes newline separately.
     @err.write "/path/to/ruby/2.2.0/gems/dragonfly-1.0.6/lib/dragonfly/utils.rb:41:in `uri_unescape': warning: URI.unescape is obsolete"

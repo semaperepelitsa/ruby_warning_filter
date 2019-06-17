@@ -22,7 +22,7 @@ require "set"
 class RubyWarningFilter < DelegateClass(IO)
   attr_reader :ruby_warnings
   BACKTRACE = "\tfrom"
-  RUBY_WARNING = %r{(^<main>|:\d+|:in `\S+'): warning:}
+  RUBY_WARNING = %r{(^<main>|\.bundle|:\d+|:in `\S+'): warning:}
   EVAL_REDEFINED = /\(eval\):\d+: warning: previous definition of .+ was here/
 
   # Variables used in tag attributes (Slim) always cause a warning.
